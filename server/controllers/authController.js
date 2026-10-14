@@ -1,5 +1,21 @@
 const authService = require("../services/authService");
 
+const handleError = (res, error, fallbackMessage) => {
+  if (error.status) {
+    return res.status(error.status).json({
+      success: false,
+      message: error.message,
+    });
+  }
+
+  console.error(fallbackMessage, "|", error.message);
+
+  res.status(500).json({
+    success: false,
+    message: fallbackMessage,
+  });
+};
+
 const register = async (req, res) => {
   try {
     const user = await authService.registerUser(req.body);
@@ -7,22 +23,10 @@ const register = async (req, res) => {
     res.status(201).json({
       success: true,
       message: "User registered successfully",
-      data: {
-        user,
-      },
+      data: { user },
     });
   } catch (error) {
-    if (error.message === "Email is already registered") {
-      return res.status(409).json({
-        success: false,
-        message: error.message,
-      });
-    }
-
-    res.status(500).json({
-      success: false,
-      message: "Registration failed",
-    });
+    handleError(res, error, "Registration failed");
   }
 };
 
@@ -36,17 +40,7 @@ const login = async (req, res) => {
       data: result,
     });
   } catch (error) {
-    if (error.message === "Invalid email or password") {
-      return res.status(401).json({
-        success: false,
-        message: error.message,
-      });
-    }
-
-    res.status(500).json({
-      success: false,
-      message: "Login failed",
-    });
+    handleError(res, error, "Login failed");
   }
 };
 
