@@ -9,8 +9,10 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { loginUser } from "../../../services/api";
+import { useAuth } from "../../../context/AuthContext";
 
 const LoginScreen = ({ navigation }) => {
+  const { signIn } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -28,14 +30,16 @@ const LoginScreen = ({ navigation }) => {
     try {
       const result = await loginUser({ email: cleanEmail, password });
 
-      if (!result.data || !result.data.token) {
+      if (!result.data || !result.data.token || !result.data.user) {
         throw new Error("Unexpected response from server.");
       }
 
-      Alert.alert("Login successful", `Welcome back, ${result.data.user.name}.`);
+      await signIn({
+        token: result.data.token,
+        user: result.data.user,
+      });
     } catch (error) {
       Alert.alert("Login failed", error.message);
-    } finally {
       setLoading(false);
     }
   };
