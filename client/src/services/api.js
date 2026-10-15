@@ -20,7 +20,9 @@ async function apiRequest(endpoint, options = {}) {
   const data = await response.json().catch(() => ({}));
 
   if (!response.ok) {
-    throw new Error(data.message || "Something went wrong.");
+    const error = new Error(data.message || "Something went wrong.");
+    error.status = response.status;
+    throw error;
   }
 
   return data;
@@ -41,5 +43,11 @@ export function loginUser({ email, password }) {
   return apiRequest("/auth/login", {
     method: "POST",
     body: JSON.stringify({ email, password }),
+  });
+}
+
+export function getCurrentUser(token) {
+  return apiRequest("/auth/me", {
+    headers: { Authorization: `Bearer ${token}` },
   });
 }

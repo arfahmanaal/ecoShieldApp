@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { getCurrentUser } from "../services/api";
 import {
   clearSession,
   loadSession,
@@ -14,7 +15,24 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const restoreSession = async () => {
       const stored = await loadSession();
-      setSession(stored);
+
+      if (!stored) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        await getCurrentUser(stored.token);
+        setSession(stored);
+      } catch (error) {
+        if (error.status === 401) {
+          await clearSession();
+          setSession(null);
+        } else {
+          setSession(stored);
+        }
+      }
+
       setLoading(false);
     };
 
