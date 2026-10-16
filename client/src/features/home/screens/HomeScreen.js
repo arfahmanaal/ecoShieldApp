@@ -1,70 +1,96 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import AppButton from "../../../components/AppButton";
+import { colors, fonts, spacing } from "../../../constants/theme";
 
 const HomeScreen = ({ navigation }) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>EcoShield</Text>
-      <Text style={styles.subtitle}>
-        Disaster Management & Environmental Monitoring
-      </Text>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.circleLarge} />
+      <View style={styles.circleSmall} />
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("Login")}
-      >
-        <Text style={styles.buttonText}>Sign In</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={[styles.button, styles.secondaryButton]}
-        onPress={() => navigation.navigate("Register")}
-      >
-        <Text style={[styles.buttonText, styles.secondaryButtonText]}>
-          Create Account
+      <View style={styles.hero}>
+        <Text style={styles.eyebrow}>DISASTER PREPAREDNESS</Text>
+        <Text style={styles.title}>EcoShield</Text>
+        <Text style={styles.subtitle}>
+          Report incidents, stay prepared, and protect your community.
         </Text>
-      </TouchableOpacity>
-    </View>
+      </View>
+
+      <View style={styles.actions}>
+        <AppButton
+          title="Sign In"
+          variant="accent"
+          onPress={() => navigation.navigate("Login")}
+        />
+        <AppButton
+          title="Create Account"
+          variant="outlineLight"
+          style={styles.secondaryAction}
+          onPress={() => navigation.navigate("Register")}
+        />
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
+    backgroundColor: colors.forest,
+    paddingHorizontal: spacing.lg,
+    justifyContent: "space-between",
+    overflow: "hidden",
+  },
+  circleLarge: {
+    position: "absolute",
+    width: 320,
+    height: 320,
+    borderRadius: 160,
+    backgroundColor: colors.emerald,
+    opacity: 0.35,
+    top: -80,
+    right: -100,
+  },
+  circleSmall: {
+    position: "absolute",
+    width: 160,
+    height: 160,
+    borderRadius: 80,
+    backgroundColor: colors.lint,
+    opacity: 0.18,
+    bottom: 180,
+    left: -60,
+  },
+  hero: {
+    flex: 1,
     justifyContent: "center",
-    padding: 24,
+  },
+  eyebrow: {
+    fontFamily: fonts.bodyMedium,
+    fontSize: 12,
+    letterSpacing: 2,
+    color: colors.lint,
+    marginBottom: spacing.md,
   },
   title: {
-    fontSize: 28,
-    fontWeight: "700",
-    marginBottom: 8,
+    fontFamily: fonts.heading,
+    fontSize: 52,
+    color: colors.white,
+    marginBottom: spacing.md,
   },
   subtitle: {
-    fontSize: 16,
-    textAlign: "center",
-    marginBottom: 32,
+    fontFamily: fonts.body,
+    fontSize: 17,
+    lineHeight: 26,
+    color: colors.lintLight,
+    maxWidth: 320,
   },
-  button: {
-    backgroundColor: "#2e7d32",
-    borderRadius: 8,
-    paddingVertical: 14,
-    paddingHorizontal: 32,
-    marginBottom: 12,
-    minWidth: 200,
-    alignItems: "center",
+  actions: {
+    paddingBottom: spacing.lg,
   },
-  buttonText: {
-    color: "#ffffff",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  secondaryButton: {
-    backgroundColor: "#ffffff",
-    borderWidth: 1,
-    borderColor: "#2e7d32",
-  },
-  secondaryButtonText: {
-    color: "#2e7d32",
+  secondaryAction: {
+    marginTop: 12,
   },
 });
 

@@ -1,4 +1,6 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import AppButton from "../../../components/AppButton";
+import { colors, fonts, radius, spacing } from "../../../constants/theme";
 import { useAuth } from "../../../context/AuthContext";
 
 const DashboardScreen = () => {
@@ -6,12 +8,26 @@ const DashboardScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome, {session.user.name}</Text>
-      <Text style={styles.subtitle}>{session.user.email}</Text>
+      <View style={styles.hero}>
+        <Text style={styles.eyebrow}>SIGNED IN</Text>
+        <Text style={styles.name}>{session.user.name}</Text>
+        <Text style={styles.email}>{session.user.email}</Text>
+      </View>
 
-      <TouchableOpacity style={styles.button} onPress={signOut}>
-        <Text style={styles.buttonText}>Sign Out</Text>
-      </TouchableOpacity>
+      <View style={styles.card}>
+        <Text style={styles.cardTitle}>Your account is ready</Text>
+        <Text style={styles.cardText}>
+          Incident reporting and daily recommendations will appear here as they
+          are built.
+        </Text>
+      </View>
+
+      <AppButton
+        title="Sign Out"
+        variant="secondary"
+        onPress={signOut}
+        style={styles.signOut}
+      />
     </View>
   );
 };
@@ -19,30 +35,53 @@ const DashboardScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 24,
+    padding: spacing.lg,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "700",
-    marginBottom: 8,
-    textAlign: "center",
+  hero: {
+    backgroundColor: colors.forest,
+    borderRadius: radius.lg,
+    padding: spacing.lg,
+    marginBottom: spacing.md,
   },
-  subtitle: {
-    fontSize: 16,
-    marginBottom: 32,
+  eyebrow: {
+    fontFamily: fonts.bodyMedium,
+    fontSize: 12,
+    letterSpacing: 2,
+    color: colors.lint,
   },
-  button: {
-    backgroundColor: "#2e7d32",
-    borderRadius: 8,
-    paddingVertical: 14,
-    paddingHorizontal: 32,
+  name: {
+    fontFamily: fonts.heading,
+    fontSize: 30,
+    color: colors.white,
+    marginTop: spacing.sm,
   },
-  buttonText: {
-    color: "#ffffff",
-    fontSize: 16,
-    fontWeight: "600",
+  email: {
+    fontFamily: fonts.body,
+    fontSize: 15,
+    color: colors.lintLight,
+    marginTop: spacing.xs,
+  },
+  card: {
+    backgroundColor: colors.surface,
+    borderRadius: radius.lg,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: spacing.lg,
+  },
+  cardTitle: {
+    fontFamily: fonts.heading,
+    fontSize: 22,
+    color: colors.forest,
+  },
+  cardText: {
+    fontFamily: fonts.body,
+    fontSize: 15,
+    lineHeight: 22,
+    color: colors.textMuted,
+    marginTop: spacing.sm,
+  },
+  signOut: {
+    marginTop: spacing.lg,
   },
 });
 

@@ -1,7 +1,8 @@
-import { ActivityIndicator, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useAuth } from "../context/AuthContext";
+import { colors, fonts } from "../constants/theme";
+import LoadingScreen from "../components/LoadingScreen";
 import HomeScreen from "../features/home/screens/HomeScreen";
 import DashboardScreen from "../features/home/screens/DashboardScreen";
 import RegisterScreen from "../features/auth/screens/RegisterScreen";
@@ -9,20 +10,24 @@ import LoginScreen from "../features/auth/screens/LoginScreen";
 
 const Stack = createNativeStackNavigator();
 
+const screenOptions = {
+  headerStyle: { backgroundColor: colors.forest },
+  headerTintColor: colors.white,
+  headerTitleStyle: { fontFamily: fonts.heading, fontSize: 22 },
+  headerShadowVisible: false,
+  contentStyle: { backgroundColor: colors.background },
+};
+
 const AppNavigator = () => {
   const { session, loading } = useAuth();
 
   if (loading) {
-    return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <ActivityIndicator size="large" color="#2e7d32" />
-      </View>
-    );
+    return <LoadingScreen />;
   }
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={screenOptions}>
         {session ? (
           <Stack.Screen
             name="Dashboard"
@@ -34,7 +39,7 @@ const AppNavigator = () => {
             <Stack.Screen
               name="Home"
               component={HomeScreen}
-              options={{ title: "EcoShield" }}
+              options={{ headerShown: false }}
             />
             <Stack.Screen
               name="Register"

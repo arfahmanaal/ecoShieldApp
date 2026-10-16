@@ -1,13 +1,14 @@
 import { useState } from "react";
 import {
-  ActivityIndicator,
   Alert,
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
 } from "react-native";
+import AppButton from "../../../components/AppButton";
+import FormInput from "../../../components/FormInput";
+import { colors, fonts, spacing } from "../../../constants/theme";
 import { registerUser } from "../../../services/api";
 
 const RegisterScreen = ({ navigation }) => {
@@ -45,7 +46,7 @@ const RegisterScreen = ({ navigation }) => {
         password,
       });
 
-            Alert.alert("Account created", "Your account was created successfully.", [
+      Alert.alert("Account created", "Your account was created successfully.", [
         { text: "OK", onPress: () => navigation.replace("Login") },
       ]);
     } catch (error) {
@@ -60,52 +61,59 @@ const RegisterScreen = ({ navigation }) => {
       contentContainerStyle={styles.container}
       keyboardShouldPersistTaps="handled"
     >
-      <Text style={styles.title}>Create Account</Text>
+      <Text style={styles.title}>Create your account</Text>
+      <Text style={styles.subtitle}>
+        Join EcoShield to report incidents and stay prepared.
+      </Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Full name"
+      <FormInput
+        label="Full name"
+        placeholder="Your name"
         value={name}
         onChangeText={setName}
       />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
+      <FormInput
+        label="Email"
+        placeholder="you@example.com"
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
         keyboardType="email-address"
       />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Password (min 8 characters)"
+      <FormInput
+        label="Password"
+        placeholder="At least 8 characters"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
         autoCapitalize="none"
       />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Confirm password"
+      <FormInput
+        label="Confirm password"
+        placeholder="Repeat your password"
         value={confirmPassword}
         onChangeText={setConfirmPassword}
         secureTextEntry
         autoCapitalize="none"
       />
 
-      <TouchableOpacity
-        style={[styles.button, loading && styles.buttonDisabled]}
+      <AppButton
+        title="Register"
         onPress={handleRegister}
-        disabled={loading}
+        loading={loading}
+        style={styles.button}
+      />
+
+      <TouchableOpacity
+        style={styles.link}
+        onPress={() => navigation.navigate("Login")}
       >
-        {loading ? (
-          <ActivityIndicator color="#ffffff" />
-        ) : (
-          <Text style={styles.buttonText}>Register</Text>
-        )}
+        <Text style={styles.linkText}>
+          Already have an account? <Text style={styles.linkStrong}>Sign in</Text>
+        </Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -115,35 +123,36 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     justifyContent: "center",
-    padding: 24,
+    padding: spacing.lg,
   },
   title: {
-    fontSize: 26,
-    fontWeight: "700",
-    marginBottom: 24,
-    textAlign: "center",
+    fontFamily: fonts.heading,
+    fontSize: 34,
+    color: colors.forest,
+    marginBottom: spacing.xs,
   },
-  input: {
-    borderWidth: 1,
-    borderColor: "#cccccc",
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 16,
+  subtitle: {
+    fontFamily: fonts.body,
     fontSize: 16,
+    color: colors.textMuted,
+    marginBottom: spacing.xl,
   },
   button: {
-    backgroundColor: "#2e7d32",
-    borderRadius: 8,
-    padding: 14,
+    marginTop: spacing.sm,
+  },
+  link: {
+    marginTop: spacing.lg,
     alignItems: "center",
   },
-  buttonDisabled: {
-    opacity: 0.6,
+  linkText: {
+    fontFamily: fonts.body,
+    fontSize: 15,
+    color: colors.textMuted,
   },
-  buttonText: {
-    color: "#ffffff",
-    fontSize: 16,
-    fontWeight: "600",
+  linkStrong: {
+    fontFamily: fonts.bodySemiBold,
+    color: colors.forest,
+    textDecorationLine: "underline",
   },
 });
 

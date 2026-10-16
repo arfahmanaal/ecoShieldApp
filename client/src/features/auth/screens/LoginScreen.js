@@ -1,13 +1,14 @@
 import { useState } from "react";
 import {
-  ActivityIndicator,
   Alert,
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
 } from "react-native";
+import AppButton from "../../../components/AppButton";
+import FormInput from "../../../components/FormInput";
+import { colors, fonts, spacing } from "../../../constants/theme";
 import { loginUser } from "../../../services/api";
 import { useAuth } from "../../../context/AuthContext";
 
@@ -49,43 +50,41 @@ const LoginScreen = ({ navigation }) => {
       contentContainerStyle={styles.container}
       keyboardShouldPersistTaps="handled"
     >
-      <Text style={styles.title}>Sign In</Text>
+      <Text style={styles.title}>Welcome back</Text>
+      <Text style={styles.subtitle}>Sign in to continue to EcoShield.</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
+      <FormInput
+        label="Email"
+        placeholder="you@example.com"
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
         keyboardType="email-address"
       />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
+      <FormInput
+        label="Password"
+        placeholder="Your password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
         autoCapitalize="none"
       />
 
-      <TouchableOpacity
-        style={[styles.button, loading && styles.buttonDisabled]}
+      <AppButton
+        title="Sign In"
         onPress={handleLogin}
-        disabled={loading}
-      >
-        {loading ? (
-          <ActivityIndicator color="#ffffff" />
-        ) : (
-          <Text style={styles.buttonText}>Sign In</Text>
-        )}
-      </TouchableOpacity>
+        loading={loading}
+        style={styles.button}
+      />
 
       <TouchableOpacity
         style={styles.link}
         onPress={() => navigation.navigate("Register")}
       >
-        <Text style={styles.linkText}>No account? Create one</Text>
+        <Text style={styles.linkText}>
+          No account? <Text style={styles.linkStrong}>Create one</Text>
+        </Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -95,43 +94,36 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     justifyContent: "center",
-    padding: 24,
+    padding: spacing.lg,
   },
   title: {
-    fontSize: 26,
-    fontWeight: "700",
-    marginBottom: 24,
-    textAlign: "center",
+    fontFamily: fonts.heading,
+    fontSize: 34,
+    color: colors.forest,
+    marginBottom: spacing.xs,
   },
-  input: {
-    borderWidth: 1,
-    borderColor: "#cccccc",
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 16,
+  subtitle: {
+    fontFamily: fonts.body,
     fontSize: 16,
+    color: colors.textMuted,
+    marginBottom: spacing.xl,
   },
   button: {
-    backgroundColor: "#2e7d32",
-    borderRadius: 8,
-    padding: 14,
-    alignItems: "center",
-  },
-  buttonDisabled: {
-    opacity: 0.6,
-  },
-  buttonText: {
-    color: "#ffffff",
-    fontSize: 16,
-    fontWeight: "600",
+    marginTop: spacing.sm,
   },
   link: {
-    marginTop: 20,
+    marginTop: spacing.lg,
     alignItems: "center",
   },
   linkText: {
-    color: "#2e7d32",
+    fontFamily: fonts.body,
     fontSize: 15,
+    color: colors.textMuted,
+  },
+  linkStrong: {
+    fontFamily: fonts.bodySemiBold,
+    color: colors.forest,
+    textDecorationLine: "underline",
   },
 });
 
