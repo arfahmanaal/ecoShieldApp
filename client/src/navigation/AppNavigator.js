@@ -8,6 +8,7 @@ import DashboardScreen from "../features/home/screens/DashboardScreen";
 import RegisterScreen from "../features/auth/screens/RegisterScreen";
 import LoginScreen from "../features/auth/screens/LoginScreen";
 import ReportIncidentScreen from "../features/incidents/screens/ReportIncidentScreen";
+import MyReportsScreen from "../features/incidents/screens/MyReportsScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -40,6 +41,11 @@ const AppNavigator = () => {
               name="ReportIncident"
               component={ReportIncidentScreen}
               options={{ title: "Report Incident" }}
+            />
+            <Stack.Screen
+              name="MyReports"
+              component={MyReportsScreen}
+              options={{ title: "My Reports" }}
             />
           </>
         ) : (

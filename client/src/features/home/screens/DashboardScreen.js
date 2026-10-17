@@ -19,11 +19,17 @@ const DashboardScreen = ({ navigation }) => {
         onPress={() => navigation.navigate("ReportIncident")}
       />
 
+      <AppButton
+        title="My reports"
+        variant="outline"
+        onPress={() => navigation.navigate("MyReports")}
+        style={styles.secondaryAction}
+      />
+
       <View style={styles.card}>
         <Text style={styles.cardTitle}>More coming soon</Text>
         <Text style={styles.cardText}>
-          Your submitted reports and daily recommendations will appear here as
-          they are built.
+          Daily recommendations will appear here as they are built.
         </Text>
       </View>
 
@@ -65,6 +71,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: colors.lintLight,
     marginTop: spacing.xs,
+  },
+  secondaryAction: {
+    marginTop: spacing.sm,
   },
   card: {
     backgroundColor: colors.surface,

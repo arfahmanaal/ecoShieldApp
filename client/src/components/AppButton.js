@@ -17,6 +17,11 @@ const variants = {
     borderColor: colors.lintLight,
     textColor: colors.forest,
   },
+  outline: {
+    backgroundColor: "transparent",
+    borderColor: colors.forest,
+    textColor: colors.forest,
+  },
   accent: {
     backgroundColor: colors.lint,
     borderColor: colors.lint,
