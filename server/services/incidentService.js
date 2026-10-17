@@ -1,6 +1,9 @@
 const { Incident, INCIDENT_CATEGORIES } = require("../models/Incident");
 const { fail } = require("../utils/httpError");
 
+const OBJECT_ID_PATTERN = /^[a-f\d]{24}$/i;
+const MY_INCIDENTS_LIMIT = 100;
+
 const toResponse = (incident) => ({
   id: incident._id,
   category: incident.category,
@@ -75,6 +78,33 @@ const createIncident = async (reporterId, body = {}) => {
   return toResponse(incident);
 };
 
+const listMyIncidents = async (reporterId) => {
+  const incidents = await Incident.find({ reporterId })
+    .sort({ createdAt: -1 })
+    .limit(MY_INCIDENTS_LIMIT);
+
+  return incidents.map(toResponse);
+};
+
+const getMyIncident = async (reporterId, incidentId) => {
+  if (!OBJECT_ID_PATTERN.test(incidentId)) {
+    throw fail(400, "Invalid incident id");
+  }
+
+  const incident = await Incident.findOne({
+    _id: incidentId,
+    reporterId,
+  });
+
+  if (!incident) {
+    throw fail(404, "Incident not found");
+  }
+
+  return toResponse(incident);
+};
+
 module.exports = {
   createIncident,
+  listMyIncidents,
+  getMyIncident,
 };
