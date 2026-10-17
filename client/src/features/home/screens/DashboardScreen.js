@@ -3,7 +3,7 @@ import AppButton from "../../../components/AppButton";
 import { colors, fonts, radius, spacing } from "../../../constants/theme";
 import { useAuth } from "../../../context/AuthContext";
 
-const DashboardScreen = () => {
+const DashboardScreen = ({ navigation }) => {
   const { session, signOut } = useAuth();
 
   return (
@@ -14,11 +14,16 @@ const DashboardScreen = () => {
         <Text style={styles.email}>{session.user.email}</Text>
       </View>
 
+      <AppButton
+        title="Report an incident"
+        onPress={() => navigation.navigate("ReportIncident")}
+      />
+
       <View style={styles.card}>
-        <Text style={styles.cardTitle}>Your account is ready</Text>
+        <Text style={styles.cardTitle}>More coming soon</Text>
         <Text style={styles.cardText}>
-          Incident reporting and daily recommendations will appear here as they
-          are built.
+          Your submitted reports and daily recommendations will appear here as
+          they are built.
         </Text>
       </View>
 
@@ -67,6 +72,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
     padding: spacing.lg,
+    marginTop: spacing.md,
   },
   cardTitle: {
     fontFamily: fonts.heading,

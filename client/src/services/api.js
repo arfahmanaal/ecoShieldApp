@@ -28,6 +28,8 @@ async function apiRequest(endpoint, options = {}) {
   return data;
 }
 
+const authHeader = (token) => ({ Authorization: `Bearer ${token}` });
+
 export function checkApiHealth() {
   return apiRequest("/test");
 }
@@ -48,6 +50,26 @@ export function loginUser({ email, password }) {
 
 export function getCurrentUser(token) {
   return apiRequest("/auth/me", {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: authHeader(token),
+  });
+}
+
+export function createIncident(token, incident) {
+  return apiRequest("/incidents", {
+    method: "POST",
+    headers: authHeader(token),
+    body: JSON.stringify(incident),
+  });
+}
+
+export function getMyIncidents(token) {
+  return apiRequest("/incidents/my", {
+    headers: authHeader(token),
+  });
+}
+
+export function getIncident(token, id) {
+  return apiRequest(`/incidents/${id}`, {
+    headers: authHeader(token),
   });
 }

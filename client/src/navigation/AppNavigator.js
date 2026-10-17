@@ -7,6 +7,7 @@ import HomeScreen from "../features/home/screens/HomeScreen";
 import DashboardScreen from "../features/home/screens/DashboardScreen";
 import RegisterScreen from "../features/auth/screens/RegisterScreen";
 import LoginScreen from "../features/auth/screens/LoginScreen";
+import ReportIncidentScreen from "../features/incidents/screens/ReportIncidentScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -29,11 +30,18 @@ const AppNavigator = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={screenOptions}>
         {session ? (
-          <Stack.Screen
-            name="Dashboard"
-            component={DashboardScreen}
-            options={{ title: "EcoShield" }}
-          />
+          <>
+            <Stack.Screen
+              name="Dashboard"
+              component={DashboardScreen}
+              options={{ title: "EcoShield" }}
+            />
+            <Stack.Screen
+              name="ReportIncident"
+              component={ReportIncidentScreen}
+              options={{ title: "Report Incident" }}
+            />
+          </>
         ) : (
           <>
             <Stack.Screen
